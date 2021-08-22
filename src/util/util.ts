@@ -37,7 +37,7 @@ export async function filterImageFromURL(inputURL: string): Promise<any> {
          })
          .catch((err) => {
             console.error(err);
-            reject('Could not read image.');
+            reject('Enable to read submitted image');
          });
    });
 }

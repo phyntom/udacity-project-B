@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from 'express';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 import { filterImageFromURL, deleteLocalFiles } from './util/util';
 
 (async () => {
@@ -10,7 +10,8 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
    const port = process.env.PORT || 8082;
 
    // Use the body parser middleware for post requests
-   app.use(bodyParser.json());
+   app.use(express.json());
+   app.use(express.urlencoded({ extended: true }));
 
    function isValidURL(inputURL: string): boolean {
       let url;
@@ -47,7 +48,8 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
             res.status(400).send('invalid image url');
          }
          let filteredImagePath = await filterImageFromURL(req.query.image_url);
-         res.sendFile(filteredImagePath);
+         console.log(filteredImagePath);
+         res.status(200).sendFile(filteredImagePath);
          files.push(filteredImagePath);
          res.on('finish', () => {
             deleteLocalFiles(files);
